@@ -28,16 +28,16 @@ def ActivityCondition( config ) :
         for index in range(0, conditionsCnt) :
             if( TimerCondition( config, index ) ) :
                 return True
-    return False
+        return False
+    else :
+        return False
 
 def TemperatureCondition( config, temperature ) :    
     useTemperature = config.getint( "conditions", "temperature" )
     if( useTemperature ) :
         curHour = datetime.datetime.today().hour
-        threshold = 1 if ( curHour < 9 or curHour >= 16 ) else 1.5
+        threshold = 1 if ( curHour < 9 and curHour > 4 ) else 1.5
         return ( temperature > threshold )
-    else:
-        return True
 
 def CurrentTemperature() :
     tfile = open( "/sys/bus/w1/devices/28-0117c158edff/w1_slave" )
@@ -81,54 +81,28 @@ def InitSystem( folder ) :
         print("INIT PIN: "+str( pin_number ))
         GPIO.setup(pin_number, GPIO.OUT)
         RelayOff( pin_number )
-
-def LogMsg( message ):
-    d = datetime.datetime.today()
-    prefix = '{:%Y-%m-%d %H:%M:%S }'.format( d )
-    return prefix + message + "\n"
     
 
 config = configparser.RawConfigParser()
 configFolder = "/home/pi/Documents/Projects/Controller/config/"
 files = [ 'Water', 'OldHouse', 'NewHouse', 'Flour', 'Bathroom' ]
-states = [ False, False, False, False, False ]
-firstIteration = True
 
 InitSystem(configFolder)
-log = open( "/home/pi/Documents/Projects/Controller/log.txt", 'a+' )
-log.write( LogMsg( "---------------------" ) )
-log.write( LogMsg( "Controller started" ) )
 
 while True:
     temperature = CurrentTemperature()
-    temperatureMsg = "Temperature = " + str( temperature )
-    if( firstIteration ):
-        log.write( LogMsg( temperatureMsg ) )
-    print( temperatureMsg )
-    for index in range( 0, 5 ): #file in files:
-        file = files[ index ]
+    print( "Temperature = " + str( temperature ) )
+    for file in files:
         config.read( configFolder + file + ".conf" )
         isActive = config.getint("conditions", "active")
         unpowered = False
         if( isActive == 0 ):
-            inactiveDevice = "Inactive device " + file
-#            if( firstIteration ):
-#                log.write( LogMsg( currentState ) )
-            print( inactiveDevice )
+            print( "Inactive device " + file )
         else :
             unpowered = ActivityCondition( config )
             if( unpowered ) :
-                temperatureCondition = TemperatureCondition( config, temperature )
-                if( unpowered != temperatureCondition ):                   
-                    log.write( LogMsg( temperatureMsg ) ) 
-                unpowered = temperatureCondition
-            currentState = file + " power " + ( "off" if unpowered else "on" )
-            if( firstIteration ):
-                log.write( LogMsg( currentState ) )
-            elif( states[ index ] != unpowered ):               
-                log.write( LogMsg( currentState ) )
-                states[ index ] = unpowered
-            print( currentState)
+                unpowered = TemperatureCondition( config, temperature )
+            print( file + " power " + ( "off" if unpowered else "on" ) )
         
         relayCnt = config.getint("relay_pins", "amount")
         for index in range(0, relayCnt) :
@@ -139,11 +113,6 @@ while True:
                 PowerOff( pin_number )
             else:
                 PowerOn( pin_number )
-        if( firstIteration ):
-            states[ index ] = unpowered
-    if( firstIteration ):
-        firstIteration = False
     print( "-----" )
-    log.flush()
     time.sleep( 5 )
 
