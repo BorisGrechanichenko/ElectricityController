@@ -38,6 +38,13 @@ class Device :
                 self.SwitchPowerOn()
             self.switchedOnByLowTemperature = False
             return
+
+        if self.TemporaryActivityCondition( self.parcer.GetTemporaryActivityConditions() ) :
+            if self.unpowered :
+                self.logger.write( self.title + " switched on by the temporary condition." )
+                self.SwitchPowerOn()
+            self.switchedOnByLowTemperature = False
+            return
         
         if( self.temperatureControl ) :
             if( self.thermostat.state == ThermostatState.on ) :
@@ -72,6 +79,13 @@ class Device :
             if( self.active and self.temperatureControl != temperatureControl ) :
                 self.logger.write( "Temperature control for \"" + self.title + "\" was " + ( " des" if not temperatureControl else "" ) + "activated" )
             self.temperatureControl = temperatureControl
+
+    def TemporaryActivityCondition( self, conditions ) :
+##        print( conditions )
+        for condition in conditions :
+            if condition[ 0 ] <= datetime.datetime.today() <= condition[ 1 ] :
+                return True
+        return False
 
     def TimerCondition( self, conditions ) :
         '''timer condition for the device to be switched off'''

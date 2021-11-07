@@ -14,7 +14,7 @@
    <string>Relay settings editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
@@ -23,7 +23,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Controlled device</string>
+         <string>Active device</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -67,14 +67,14 @@
           <item>
            <widget class="QGroupBox" name="gbRelay1">
             <property name="title">
-             <string>Relay1</string>
+             <string>Device relays</string>
             </property>
             <property name="checkable">
              <bool>false</bool>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
-              <widget class="QComboBox" name="cbRelay1"/>
+              <widget class="QComboBox" name="cbDeviceRelays"/>
              </item>
             </layout>
            </widget>
@@ -82,17 +82,17 @@
           <item>
            <widget class="QGroupBox" name="gbRelay2">
             <property name="title">
-             <string>Relay2</string>
+             <string>All relays</string>
             </property>
             <property name="checkable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="checked">
              <bool>false</bool>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="QComboBox" name="cbRelay2"/>
+              <widget class="QComboBox" name="cbAllRelays"/>
              </item>
             </layout>
            </widget>
@@ -101,158 +101,24 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="gbConditionsToTurnOff">
-         <property name="title">
-          <string>Conditions to turn off</string>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="topMargin">
+          <number>123</number>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="minimumSize">
-               <size>
-                <width>70</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Days: </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="cbDays">
-              <item>
-               <property name="text">
-                <string>Every day</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Monday - Friday 12am</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Friday 12am - Sunday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Monday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Tuesday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Wednesday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Thursday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Friday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Saturday</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Sunday</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Time: </string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>from</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QTimeEdit" name="teTimeBegin">
-              <property name="currentSection">
-               <enum>QDateTimeEdit::HourSection</enum>
-              </property>
-              <property name="displayFormat">
-               <string>HH</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>to</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QTimeEdit" name="teTimeEnd">
-              <property name="displayFormat">
-               <string>HH</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">

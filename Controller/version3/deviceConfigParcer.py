@@ -1,5 +1,6 @@
 import configparser
 import re
+import datetime
 
 class DeviceConfigParcer() :
     '''configparcer for device' config files'''
@@ -28,6 +29,24 @@ class DeviceConfigParcer() :
             print( "Config errror: Incorrect temperature flag for device!" )
             return False
 
+    def GetTemporaryActivityConditions( self ) :
+        '''returns the list of tuples (pairs) of dates'''
+        result = []
+        conditions = self.config.items( "temporaryActivityConditions" )
+        for line in conditions :
+            try :
+                s1 = line[ 1 ].split( "-" )
+                dateFormat = '%d.%m.%Y %H:%M'
+                start = datetime.datetime.strptime( s1[ 0 ].strip(), dateFormat )
+                end = datetime.datetime.strptime( s1[ 1 ].strip(), dateFormat )
+                result.append( ( start, end ) )
+            except Exception as ex:
+                print( "Config error: wrong syntax in condition " + line[ 0 ] + " = " + line[ 1 ] )
+                print( "Error: %s" % ex )
+            
+        return result
+        
+
     def GetConditions( self ) :
         '''returns the list of tuples (pairs)'''
         result = []
@@ -44,7 +63,7 @@ class DeviceConfigParcer() :
                 else :
                     timeLimits = s1[ 1 ].split( " - " )
                     result.append( ( timeLimits[ 0 ], timeLimits[ 1 ] ) )
-        except:
+        except :
             print( "Config errror: Incorrect conditions for relays!" )
             
         return result

@@ -25,10 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    DeviceConfig.cpp
+    DeviceConfig.cpp \
+    TimerCondition.cpp
 
 HEADERS  += MainWindow.h \
+    TimerCondition.h \
     configEditorStrings.h \
     DeviceConfig.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    TimerCondition.ui

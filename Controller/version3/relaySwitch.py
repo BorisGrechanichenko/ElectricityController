@@ -13,15 +13,18 @@ class Relay :
         self.pin = pin_number
         self.title = title
         GPIO.setup( pin_number, GPIO.OUT )
+
+    def State( self ) :
+        return GPIO.input( self.pin )
     
-    def RelayOn( self ):
+    def RelayOn( self ) :
         GPIO.output( self.pin, GPIO.LOW )
 
-    def RelayOff( self ):
+    def RelayOff( self ) :
         GPIO.output( self.pin, GPIO.HIGH )
 
-    def PowerOn( self ):
+    def PowerOn( self ) :
         GPIO.output( self.pin, GPIO.HIGH )
 
-    def PowerOff( self ):
+    def PowerOff( self ) :
         GPIO.output( self.pin, GPIO.LOW )
